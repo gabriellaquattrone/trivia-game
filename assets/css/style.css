@@ -1,0 +1,21 @@
+body, html {
+    height: 100vh;
+    margin: 0;
+}
+
+#trivia-body {
+    /* https://www.w3schools.com/howto/howto_css_full_page.asp */
+    background: url('../images/background.jpg');
+    /* Full height */
+    height: 100vh;
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#row-body {
+    background-color: white;
+    border-radius: 6px;
+    text-align: center;
+}
