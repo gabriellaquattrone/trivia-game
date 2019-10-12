@@ -19,3 +19,18 @@ body, html {
     border-radius: 6px;
     text-align: center;
 }
+
+#a:hover {
+    background-color: aliceblue;
+    cursor: pointer;
+}
+
+#b:hover {
+    background-color: aliceblue;
+    cursor: pointer;
+}
+
+#c:hover {
+    background-color: aliceblue;
+    cursor: pointer;
+}
