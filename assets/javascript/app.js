@@ -14,7 +14,7 @@ let questionsAndAnswers = [
 let numberCorrect = 0;
 let numberWrong = 0;
 let number = 0;
-let time = 30;
+let time = 15;
 let intervalID;
 
 
@@ -50,11 +50,19 @@ function count(){
     $('#timer').text(time);
     if (time <= 0){
         stop();
-        $('#correct-incorrect').text("Jikan desu! Time's up! The correct answer is hilighted.")
+        $('#correct-incorrect').text("Jikan desu! Time's up! The correct answer is hilighted.");
+        $('#' + questionsAndAnswers[number].correct).addClass("highlight");
+        setTimeout(goToNextQuestion, 3000);
     }
 }
 function stop() {
     clearInterval(intervalID);
+}
+function goToNextQuestion(){
+    $('#correct-incorrect').empty();
+    $('#' + questionsAndAnswers[number].correct).removeClass("highlight");
+    number++;
+    displayQuestion();
 }
 function displayQuestion(){
     $('#question').text(questionsAndAnswers[number].question);
