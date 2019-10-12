@@ -34,3 +34,15 @@ body, html {
     background-color: aliceblue;
     cursor: pointer;
 }
+#timer {
+    display: none;
+    background-color: aliceblue;
+    font-size: 5vh;
+    border-radius: 6px;
+    width: 10vw;
+    height: 20vh;
+}
+
+.highlight {
+    background-color: lightblue;
+}
