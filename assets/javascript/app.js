@@ -45,6 +45,11 @@ function startTimer(){
     $('#timer').text(time);
     intervalID = setInterval(count, 1000);
 }
+function resetTimer(){
+    stop();
+    time = 15;
+    startTimer();
+}
 function count(){
     time--;
     $('#timer').text(time);
@@ -52,15 +57,19 @@ function count(){
         stop();
         $('#correct-incorrect').text("Jikan desu! Time's up! The correct answer is hilighted.");
         $('#' + questionsAndAnswers[number].correct).addClass("highlight");
-        setTimeout(goToNextQuestion, 3000);
+        setTimeout(goToNextQuestionAfterStopped, 3000);
     }
 }
 function stop() {
     clearInterval(intervalID);
 }
-function goToNextQuestion(){
+function goToNextQuestionAfterStopped(){
+    resetTimer();
     $('#correct-incorrect').empty();
+
+    // Removes highlight before next question (current)
     $('#' + questionsAndAnswers[number].correct).removeClass("highlight");
+
     number++;
     displayQuestion();
 }
@@ -71,17 +80,38 @@ function displayQuestion(){
     $('#c').text(questionsAndAnswers[number].c);    
 }
 
+function displayNextQuestion(){
+    resetTimer();
+    $('#' + questionsAndAnswers[number].correct).removeClass("highlight");
+    number++
+    $('#correct-incorrect').text("");
+    $('#question').text(questionsAndAnswers[number].question);
+    $('#a').text(questionsAndAnswers[number].a);
+    $('#b').text(questionsAndAnswers[number].b);
+    $('#c').text(questionsAndAnswers[number].c);  
+}
+
 function checkIfRightAnswer(userAnswer) {
     if (questionsAndAnswers[number].correct == userAnswer) {
         $('#correct-incorrect').text("Pin-pon! You got it right.");
-        number++;
         numberCorrect++;
-        displayQuestion();
+        console.log("Number: ", number, "Question Array Length: ", questionsAndAnswers.length);
+        if(number < questionsAndAnswers.length){
+           stop();
+           $('#' + questionsAndAnswers[number].correct).addClass("highlight");
+            // Make sure to let everything else run.
+           setTimeout(displayNextQuestion, 5000);
+
+        } 
     }
-    else {
+    else if (questionsAndAnswers[number].correct != userAnswer) {
+        stop();
         $('#correct-incorrect').text("Chigaimasu. That was wrong. The correct answer is hilighted.");
         numberWrong++;
         // Helped me with below: https://api.jquery.com/first/#entry-examples
         $('#' + questionsAndAnswers[number].correct).addClass("highlight");
+        if(number < questionsAndAnswers.length){
+            setTimeout(displayNextQuestion, 5000);
+        }    
     }
 }
