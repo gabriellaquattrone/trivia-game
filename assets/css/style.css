@@ -47,6 +47,10 @@ body, html {
     background-color: aliceblue;
     cursor: pointer;
 }
+
+#kimono {
+    display: none;
+}
 #timer {
     display: none;
     background-color: aliceblue;

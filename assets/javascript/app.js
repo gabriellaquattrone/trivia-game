@@ -26,6 +26,11 @@ $(document).ready(function () {
         startTimer();
     });
 
+    addListeners();
+
+});
+
+function addListeners() {
     $('#a').on("click", function () {
         checkIfRightAnswer('a');
     });
@@ -41,9 +46,12 @@ $(document).ready(function () {
     $('#restart').on("click", function () {
         restartGame();
     });
-
-});
-
+}
+function removeListeners() {
+    $('#a').off("click");
+    $('#b').off("click");
+    $('#c').off("click");
+}
 function startTimer() {
     $('#timer').show();
     $('#timer').text(time);
@@ -86,9 +94,20 @@ function displayQuestion() {
     $('#a').text(questionsAndAnswers[number].a);
     $('#b').text(questionsAndAnswers[number].b);
     $('#c').text(questionsAndAnswers[number].c);
+    imageDisplay();
+}
+
+function imageDisplay() {
+    if (number === 0){
+        $('#kimono').show();
+    }
+    else {
+        $('#kimono').hide();
+    }
 }
 
 function displayNextQuestion() {
+    addListeners();
     $('#question').show();
     $('#a').show();
     $('#b').show();
@@ -96,6 +115,7 @@ function displayNextQuestion() {
     resetTimer();
     $('#' + questionsAndAnswers[number].correct).removeClass("highlight");
     number++
+    imageDisplay();
     if (number >= questionsAndAnswers.length) {
         displayEndScreen();
     }
@@ -153,6 +173,7 @@ function checkIfRightAnswer(userAnswer) {
         numberWrong++;
         // Helped me with below: https://api.jquery.com/first/#entry-examples
         $('#' + questionsAndAnswers[number].correct).addClass("highlight");
+        removeListeners();
         setTimeout(displayNextQuestion, 5000);
     }
 }
