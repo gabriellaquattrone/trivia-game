@@ -69,6 +69,7 @@ function count() {
         stop();
         $('#correct-incorrect').text("Jikan desu! Time's up! The correct answer is hilighted.");
         $('#' + questionsAndAnswers[number].correct).addClass("highlight");
+        removeListeners();
         setTimeout(goToNextQuestionAfterStopped, 3000);
     }
 }
@@ -76,25 +77,38 @@ function stop() {
     clearInterval(intervalID);
 }
 function goToNextQuestionAfterStopped() {
-    resetTimer();
+
     $('#correct-incorrect').empty();
 
     // Removes highlight before next question (current)
     $('#' + questionsAndAnswers[number].correct).removeClass("highlight");
 
     number++;
-    displayQuestion();
+    
+    if (number >= questionsAndAnswers.length) {
+        displayEndScreen();
+    }
+    else {
+        resetTimer();
+        displayQuestion();
+    }  
 }
 function displayQuestion() {
-    $('#question').show();
-    $('#a').show();
-    $('#b').show();
-    $('#c').show();
-    $('#question').text(questionsAndAnswers[number].question);
-    $('#a').text(questionsAndAnswers[number].a);
-    $('#b').text(questionsAndAnswers[number].b);
-    $('#c').text(questionsAndAnswers[number].c);
-    imageDisplay();
+    if (number >= questionsAndAnswers.length) {
+        displayEndScreen();
+    }
+    else {
+        addListeners();
+        $('#question').show();
+        $('#a').show();
+        $('#b').show();
+        $('#c').show();
+        $('#question').text(questionsAndAnswers[number].question);
+        $('#a').text(questionsAndAnswers[number].a);
+        $('#b').text(questionsAndAnswers[number].b);
+        $('#c').text(questionsAndAnswers[number].c);
+        imageDisplay();
+    }   
 }
 
 function imageDisplay() {
@@ -106,20 +120,23 @@ function imageDisplay() {
     }
 }
 
+// Used if the previous answer to the previous question was wrong or right.
 function displayNextQuestion() {
-    addListeners();
-    $('#question').show();
-    $('#a').show();
-    $('#b').show();
-    $('#c').show();
-    resetTimer();
+
     $('#' + questionsAndAnswers[number].correct).removeClass("highlight");
     number++
     imageDisplay();
-    if (number >= questionsAndAnswers.length) {
+
+    if (number > questionsAndAnswers.length) {
         displayEndScreen();
     }
     else {
+        addListeners();
+        $('#question').show();
+        $('#a').show();
+        $('#b').show();
+        $('#c').show();
+        resetTimer();
         $('#correct-incorrect').text("");
         $('#question').text(questionsAndAnswers[number].question);
         $('#a').text(questionsAndAnswers[number].a);
@@ -153,10 +170,11 @@ function restartGame() {
     numberWrong = 0;
     number = 0;
     displayQuestion();
-    startTimer();
+    resetTimer();
 }
 function checkIfRightAnswer(userAnswer) {
     if (questionsAndAnswers[number].correct == userAnswer) {
+        removeListeners();
         $('#correct-incorrect').text("Pin-pon! You got it right.");
         $('#question').hide();
         $('#a').hide();
