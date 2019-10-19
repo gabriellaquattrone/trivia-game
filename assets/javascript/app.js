@@ -26,7 +26,7 @@ $(document).ready(function () {
         startTimer();
     });
 
-    addListeners();
+    //addListeners();
 
 });
 
@@ -127,7 +127,7 @@ function displayNextQuestion() {
     number++
     imageDisplay();
 
-    if (number > questionsAndAnswers.length) {
+    if (number >= questionsAndAnswers.length) {
         displayEndScreen();
     }
     else {
@@ -160,6 +160,7 @@ function displayEndScreen() {
     $('#num-wrong').text(numberWrong);
 }
 function restartGame() {
+    removeListeners();
     $('#correct-incorrect').text("");
     $('#num-correct-wrong').hide();
     $('#restart').hide();
@@ -188,10 +189,11 @@ function checkIfRightAnswer(userAnswer) {
     else if (questionsAndAnswers[number].correct != userAnswer) {
         stop();
         $('#correct-incorrect').text("Chigaimasu. That was wrong. The correct answer is hilighted.");
-        numberWrong++;
         // Helped me with below: https://api.jquery.com/first/#entry-examples
+        numberWrong++;
         $('#' + questionsAndAnswers[number].correct).addClass("highlight");
         removeListeners();
         setTimeout(displayNextQuestion, 5000);
+       
     }
 }
