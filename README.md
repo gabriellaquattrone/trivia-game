@@ -1,2 +1,2 @@
 # trivia-game
-This will be a Japanese trivia game.
+This is a Japanese trivia game.
